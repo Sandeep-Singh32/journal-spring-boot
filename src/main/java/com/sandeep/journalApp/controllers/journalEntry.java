@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("journal")
+@RequestMapping("_journal")
 public class journalEntry {
     private Map<Long, JournalApp> journals  = new HashMap<>();
     private List<JournalApp> userJournals = new ArrayList<>();
@@ -57,7 +57,7 @@ public class journalEntry {
     public boolean deleteMapById(@PathVariable Long id){
 //        this.journals.remove(id);
 //        return true;
-        return this.userJournals.removeIf(data -> data.getId().equals(id));
+        return this.userJournals.removeIf(data -> data.getId()==(id));
     }
 
     @PutMapping()
