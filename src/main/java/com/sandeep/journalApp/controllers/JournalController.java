@@ -6,13 +6,14 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("journal")
-public class JournalEntryV2 {
+public class JournalController {
 
     @Autowired
     private JournalEntryService journalEntryService;
@@ -35,6 +36,18 @@ public class JournalEntryV2 {
              throw new RuntimeException(e);
          }
     }
+
+    @PostMapping("transactionAdd")
+    public ResponseEntity<JournalEntity> addJournalTransaction(@RequestBody() JournalEntity data){
+        try{
+            JournalEntity je = this.journalEntryService.addJournal(data);
+            return new ResponseEntity<>(je, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     @GetMapping("{id}")
     public ResponseEntity<JournalEntity> getJournalById(@PathVariable() ObjectId id){

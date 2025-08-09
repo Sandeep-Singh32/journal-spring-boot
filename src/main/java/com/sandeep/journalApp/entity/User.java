@@ -1,34 +1,35 @@
 package com.sandeep.journalApp.entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-//@Getter
-//@Setter
 
-//Data annotation ke andar sab getter, setter, args, equal sab aa jate hain
-
-@Document(collection = "journey_data")
+@Document(collection = "users")
 @Data
-public class JournalEntity {
+public class User {
     @Id
     private ObjectId id;
 
-    private  String title;
-
-    private String content;
+    @Indexed(unique = true)
+    @NonNull
+    private String name;
 
     @NonNull
-    private String user;
+    private String password;
+
+    @DBRef
+    private List<JournalEntity> journals = new ArrayList<>();
 
     @CreatedDate
     private Instant createdAt;
